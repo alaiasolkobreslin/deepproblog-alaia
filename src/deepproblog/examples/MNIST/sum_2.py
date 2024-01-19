@@ -20,7 +20,7 @@ args = parser.parse_args()
 method = "exact"
 N = 1
 
-name = "addition_{}_{}".format(method, N)
+name = "sum_2{}_{}_{}".format(method, N, args.seed)
 
 train_set = addition(N, "train")
 test_set = addition(N, "test")
