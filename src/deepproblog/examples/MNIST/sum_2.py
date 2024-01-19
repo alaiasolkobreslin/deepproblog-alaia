@@ -11,6 +11,12 @@ from deepproblog.model import Model
 from deepproblog.network import Network
 from deepproblog.train import train_model
 
+from argparse import ArgumentParser
+
+parser = ArgumentParser("sum_2")
+parser.add_argument("--seed", type=int, default=1234)
+args = parser.parse_args()
+
 method = "exact"
 N = 1
 
@@ -19,7 +25,7 @@ name = "addition_{}_{}".format(method, N)
 train_set = addition(N, "train")
 test_set = addition(N, "test")
 
-train_set = train_set.subset(0, 1000)
+train_set = train_set.subset(0, 10000)
 test_set = test_set.subset(0, 1000)
 
 network = MNIST_Net()
@@ -41,7 +47,7 @@ elif method == "geometric_mean":
 model.add_tensor_source("train", MNIST_train)
 model.add_tensor_source("test", MNIST_test)
 
-loader = DataLoader(train_set, 2, False)
+loader = DataLoader(train_set, 2, False, seed=args.seed)
 train = train_model(model, loader, 10, log_iter=100, profile=0)
 model.save_state("snapshot/" + name + ".pth")
 train.logger.comment(dumps(model.get_hyperparameters()))
