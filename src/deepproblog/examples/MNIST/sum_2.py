@@ -19,6 +19,9 @@ name = "addition_{}_{}".format(method, N)
 train_set = addition(N, "train")
 test_set = addition(N, "test")
 
+train_set = train_set.subset(0, 1000)
+test_set = test_set.subset(0, 1000)
+
 network = MNIST_Net()
 
 pretrain = 0
@@ -39,7 +42,7 @@ model.add_tensor_source("train", MNIST_train)
 model.add_tensor_source("test", MNIST_test)
 
 loader = DataLoader(train_set, 2, False)
-train = train_model(model, loader, 1, log_iter=100, profile=0)
+train = train_model(model, loader, 10, log_iter=100, profile=0)
 model.save_state("snapshot/" + name + ".pth")
 train.logger.comment(dumps(model.get_hyperparameters()))
 train.logger.comment(
