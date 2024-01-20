@@ -5,7 +5,7 @@ import torch
 from deepproblog.dataset import DataLoader
 from deepproblog.engines import ApproximateEngine, ExactEngine
 from deepproblog.evaluate import get_confusion_matrix
-from deepproblog.examples.MNIST.data import MNIST_train, MNIST_test, addition
+from deepproblog.examples.MNIST.data import MNIST_train, MNIST_test, addition_3
 from deepproblog.examples.MNIST.network import MNIST_Net
 from deepproblog.model import Model
 from deepproblog.network import Network
@@ -22,8 +22,8 @@ N = 1
 
 name = "sum_3{}_{}_{}".format(method, N, args.seed)
 
-train_set = addition(N, "train")
-test_set = addition(N, "test")
+train_set = addition_3(N, "train")
+test_set = addition_3(N, "test")
 
 train_set = train_set.subset(0, 15000)
 test_set = test_set.subset(0, 1500)

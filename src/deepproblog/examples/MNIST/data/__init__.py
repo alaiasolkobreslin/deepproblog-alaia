@@ -75,6 +75,27 @@ def addition(n: int, dataset: str, seed=None):
         seed=seed,
     )
 
+def addition_3(n: int, dataset: str, seed=None):
+    """Returns a dataset for binary addition"""
+    return MNISTOperator(
+        dataset_name=dataset,
+        function_name="addition" if n == 1 else "multi_addition",
+        operator=sum,
+        size=n,
+        arity=3,
+        seed=seed,
+    )
+
+def addition_4(n: int, dataset: str, seed=None):
+    """Returns a dataset for binary addition"""
+    return MNISTOperator(
+        dataset_name=dataset,
+        function_name="addition" if n == 1 else "multi_addition",
+        operator=sum,
+        size=n,
+        arity=4,
+        seed=seed,
+    )
 
 class MNISTOperator(Dataset, TorchDataset):
     def __getitem__(self, index: int) -> Tuple[list, list, int]:
