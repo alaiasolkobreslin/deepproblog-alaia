@@ -31,7 +31,7 @@ args = parser.parse_args()
 method = "exact"
 N = 1
 
-name = "sort_2{}_{}_{}".format(method, N, args.seed)
+name = "sort_2_test{}_{}_{}".format(method, N, args.seed)
 
 train_set = sort_2(N, "train")
 test_set = sort_2(N, "test")

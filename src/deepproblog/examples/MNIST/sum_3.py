@@ -5,13 +5,23 @@ import torch
 from deepproblog.dataset import DataLoader
 from deepproblog.engines import ApproximateEngine, ExactEngine
 from deepproblog.evaluate import get_confusion_matrix
-from deepproblog.examples.MNIST.data import MNIST_train, MNIST_test, addition_3
+from deepproblog.examples.MNIST.data import MNIST_train, MNIST_test, MNISTOperator
 from deepproblog.examples.MNIST.network import MNIST_Net
 from deepproblog.model import Model
 from deepproblog.network import Network
 from deepproblog.train import train_model
 
 from argparse import ArgumentParser
+
+def addition_3(n: int, dataset: str, seed=None):
+    return MNISTOperator(
+        dataset_name=dataset,
+        function_name="addition",
+        operator=lambda x: x[0] + x[1] + x[2],
+        size=n,
+        arity=3,
+        seed=seed,
+    )
 
 parser = ArgumentParser("sum_3")
 parser.add_argument("--seed", type=int, default=1234)
