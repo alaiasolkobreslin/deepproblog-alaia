@@ -35,8 +35,8 @@ name = "sum_3{}_{}_{}".format(method, N, args.seed)
 train_set = addition_3(N, "train")
 test_set = addition_3(N, "test")
 
-train_set = train_set.subset(0, 15000)
-test_set = test_set.subset(0, 1500)
+train_set = train_set.subset(0, 10000)
+test_set = test_set.subset(0, 1000)
 
 network = MNIST_Net()
 
