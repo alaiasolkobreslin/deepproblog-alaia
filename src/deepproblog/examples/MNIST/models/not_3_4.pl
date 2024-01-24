@@ -4,4 +4,15 @@ number([],Result,Result).
 number([H|T],Acc,Result) :- digit(H,Nr), Acc2 is Nr+10*Acc,number(T,Acc2,Result).
 number(X,Y) :- number(X,0,Y).
 
-add_mod_3(X,Y,Z) :- digit(X,X2), digit(Y,Y2), Z is ((X2+Y2) mod 3).
+not_3_4(X, Y, Z) :-
+    digit(X,X2),
+    digit(Y,Y2),
+    X2 != 3,
+    Y2 != 4,
+    Z is 1.
+
+not_3_4(X, Y, Z) :-
+    digit(X,X2),
+    digit(Y,Y2),
+    (X2 == 3; Y2 == 4),
+    Z is 0.
