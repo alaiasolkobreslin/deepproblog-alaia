@@ -35,8 +35,8 @@ name = "add_sub{}_{}_{}".format(method, N, args.seed)
 train_set = add_sub(N, "train")
 test_set = add_sub(N, "test")
 
-train_set = train_set.subset(0, 15000)
-test_set = test_set.subset(0, 1500)
+train_set = train_set.subset(0, 10000)
+test_set = test_set.subset(0, 1000)
 
 network = MNIST_Net()
 
