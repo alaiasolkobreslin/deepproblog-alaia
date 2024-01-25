@@ -19,7 +19,7 @@ def count_3_4(n: int, dataset: str, seed=None):
         function_name="count_3_4",
         operator=lambda x: sum((n == 3 or n == 4) for n in x),
         size=n,
-        arity=8,
+        arity=2,
         seed=seed,
     )
 
@@ -35,8 +35,8 @@ name = "count_3_4{}_{}_{}".format(method, N, args.seed)
 train_set = count_3_4(N, "train")
 test_set = count_3_4(N, "test")
 
-train_set = train_set.subset(0, 40000)
-test_set = test_set.subset(0, 4000)
+train_set = train_set.subset(0, 10000)
+test_set = test_set.subset(0, 1000)
 
 network = MNIST_Net()
 
