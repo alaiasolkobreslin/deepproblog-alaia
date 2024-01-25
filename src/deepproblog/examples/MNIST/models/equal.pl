@@ -7,11 +7,11 @@ number(X,Y) :- number(X,0,Y).
 equal(X, Y, Z) :-
     digit(X,X2),
     digit(Y,Y2),
-    X2 == Y2,
+    X2 = Y2,
     Z is 1.
 
 equal(X, Y, Z) :-
     digit(X,X2),
     digit(Y,Y2),
-    X2 == Y2,
+    X2 \= Y2,
     Z is 0.
