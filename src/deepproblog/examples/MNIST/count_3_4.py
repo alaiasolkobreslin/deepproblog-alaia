@@ -19,7 +19,7 @@ def count_3_4(n: int, dataset: str, seed=None):
         function_name="count_3_4",
         operator=lambda x: sum((n == 3 or n == 4) for n in x),
         size=n,
-        arity=2,
+        arity=8,
         seed=seed,
     )
 
