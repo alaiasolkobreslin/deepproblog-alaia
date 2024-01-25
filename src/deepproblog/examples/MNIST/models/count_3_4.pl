@@ -9,4 +9,4 @@ main(List, Result) :- count_threes_and_fours(List, Result).
 
 count_3_4(A,B,C,D,E,F,G,H,Z) :- digit(A,A2), digit(B,B2), digit(C,C2), digit(D,D2),
                                 digit(E,E2), digit(F,F2), digit(G,G2), digit(H,H2),
-                                Z is main([A2, B2, C2, D2, E2, F2, G2, H2]).
+                                main([A2, B2, C2, D2, E2, F2, G2, H2], Z).
