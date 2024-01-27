@@ -39,7 +39,7 @@ test_set = mult_2(N, "test")
 train_set = train_set.subset(0, 10000)
 test_set = test_set.subset(0, 1000)
 
-network = MNIST_Net()
+network = MNIST_Net(10)
 
 pretrain = 0
 if pretrain is not None and pretrain > 0:
@@ -47,7 +47,7 @@ if pretrain is not None and pretrain > 0:
 net = Network(network, "mnist_net", batching=True)
 net.optimizer = torch.optim.Adam(network.parameters(), lr=1e-3)
 
-model = Model("models/mult.pl", [net])
+model = Model("/workspace/deepproblog-alaia/src/deepproblog/examples/MNIST/models/mult.pl", [net])
 if method == "exact":
     model.set_engine(ExactEngine(model), cache=True)
 elif method == "geometric_mean":
