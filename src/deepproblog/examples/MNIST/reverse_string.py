@@ -15,6 +15,7 @@ from deepproblog.evaluate import get_confusion_matrix
 from deepproblog.model import Model
 from deepproblog.network import Network
 from deepproblog.train import train_model
+from deepproblog.embeddings import List as DPLList
 
 from typing import Callable, List, Iterable, Tuple
 from torch.utils.data import Dataset as TorchDataset
@@ -138,7 +139,7 @@ class EMNISTOperator(Dataset, TorchDataset):
                 Term(
                     self.function_name,
                     *(e[0] for e in var_names),
-                    Constant(expected_result),
+                    Constant(tuple(expected_result)),
                 ),
                 subs,
             )
@@ -169,11 +170,20 @@ class EMNISTOperator(Dataset, TorchDataset):
     def __len__(self):
         return len(self.data)
 
+char_to_int = {
+    '0': 0, '1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9,
+    'A': 10, 'B': 11, 'C': 12, 'D': 13, 'E': 14, 'F': 15, 'G': 16, 'H': 17, 'I': 18, 'J': 19,
+    'K': 20, 'L': 21, 'M': 22, 'N': 23, 'O': 24, 'P': 25, 'Q': 26, 'R': 27, 'S': 28, 'T': 29,
+    'U': 30, 'V': 31, 'W': 32, 'X': 33, 'Y': 34, 'Z': 35,
+    'a': 36, 'b': 37, 'd': 38, 'e': 39, 'f': 40, 'g': 41, 'h': 42, 'n': 43, 'q': 44, 'r': 45, 't': 46
+}
 
 def reverse_string(n: int, dataset: str, seed=None):
     return EMNISTOperator(
         dataset_name=dataset,
         function_name="reverse_string",
+        #operator = lambda char_list: sum(ord(char) * (1000 ** idx) for idx, char in enumerate(char_list)),
+        #operator= lambda char_list: sum(char_to_int[char] * (47 ** idx) for idx, char in enumerate(reversed(char_list))),
         # operator=lambda x: ''.join([i for i in reversed(x)]),
         operator=lambda x: tuple(i for i in reversed(x)),
         size=n,
@@ -256,12 +266,9 @@ net = Network(network, "emnist_net", batching=True)
 net.optimizer = torch.optim.Adam(network.parameters(), lr=1e-3)
 
 model = Model("/workspace/deepproblog-alaia/src/deepproblog/examples/MNIST/models/reverse_string.pl", [net])
-if method == "exact":
-    model.set_engine(ExactEngine(model), cache=True)
-elif method == "geometric_mean":
-    model.set_engine(
-        ApproximateEngine(model, 1, ApproximateEngine.geometric_mean, exploration=False)
-    )
+
+model.set_engine(ExactEngine(model), cache=False)
+
 
 model.add_tensor_source("train", MNIST_train)
 model.add_tensor_source("test", MNIST_test)
