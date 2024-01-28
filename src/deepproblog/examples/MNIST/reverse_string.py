@@ -139,7 +139,7 @@ class EMNISTOperator(Dataset, TorchDataset):
                 Term(
                     self.function_name,
                     *(e[0] for e in var_names),
-                    Constant(tuple(expected_result)),
+                    Constant(expected_result),
                 ),
                 subs,
             )

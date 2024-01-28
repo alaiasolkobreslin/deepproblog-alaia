@@ -10,7 +10,9 @@ palindrome(L) :- append([H|T], [H], L),
 
 % Assume: input 1234 given as [1,2,3,4] 
 % return 1 for true, 0 for false
-palindrome_number(X, Z) :- digit_list(X, L), 
-                           palindrome(L), !,
+main(X, Z) :- digit_list(X, L), 
+                           palindrome(L),
                            Z is 1.
-palindrome_number(_, Z) :- Z is 0.
+main(_, Z) :- Z is 0.
+
+palindrome_number(W, X, Y, Z) :- main([W, X, Y], Z).
