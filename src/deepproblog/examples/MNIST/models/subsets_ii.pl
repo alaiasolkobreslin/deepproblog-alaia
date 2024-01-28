@@ -11,14 +11,13 @@ subset([], []).
 subset([H|T], [H|S]) :- subset(T, S).
 subset([_|T], S) :- subset(T, S).
 
-all_subsets(X, Y) :- findall(Y, subset(X, Y), Y).
-
 remove_dup([], []).
 remove_dup([H|T], Y) :- member(H, T), !, 
                         remove_dup(T, Y).
 remove_dup([H|T], [H|Y]) :- remove_dup(T, Y).
 
 % Assume list of lists as input [[1], [2], [3]]
-subsets_ii(X, Y) :- num_list(X, L),
-                   all_subsets(L, S),
-                   remove_dup(S, Y).
+subsets_ii(X, Y) :- num_list(X, XL),
+                    sort(0, @=<, XL, L),
+                    findall(T, subset(L, T), S),
+                    remove_dup(S, Y).
