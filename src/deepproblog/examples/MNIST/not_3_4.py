@@ -17,9 +17,9 @@ def not_3_4(n: int, dataset: str, seed=None):
     return MNISTOperator(
         dataset_name=dataset,
         function_name="not_3_4",
-        operator=lambda x: 1 if (x[0] != 3 and x[1] != 4) else 0, #define solution here
+        operator=lambda x: 1 if (x[0] != 3 and x[0] != 4) else 0, #define solution here
         size=n,
-        arity=2,
+        arity=1,
         seed=seed,
     )
 
