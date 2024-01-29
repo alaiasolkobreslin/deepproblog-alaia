@@ -4,6 +4,7 @@ nn(leaf_net,[X],Y,['leathery', 'smooth', 'glossy', 'medium']) :: texture(X,Y).
 
 % labels = ['Alstonia Scholaris', 'Citrus limon', 'Jatropha curcas', 'Mangifera indica', 'Ocimum basilicum',
 %           'Platanus orientalis', 'Pongamia Pinnata', 'Psidium guajava', 'Punica granatum', 'Syzygium cumini', 'Terminalia Arjuna']
+% dataset can be found at https://drive.google.com/drive/u/2/folders/1e_Gm-ZNdAPsc64K1c5cQadUU7oaZqtOw
 
 leaf_11('serrate',   _,            _,         L) :- L = 'Ocimum basilicum'.
 leaf_11('dentate',   _,            _,         L) :- L = 'Jatropha curcas'.
