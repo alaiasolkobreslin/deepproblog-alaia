@@ -197,9 +197,10 @@ class LeavesDataset(torch.utils.data.Dataset):
     return (imgs, labels)
   
 data_root = '/workspace/deepproblog-alaia/'
-leaf_dataset = LeavesDataset(data_root, 'leaf_11', 45)
-train_percentage = 0.7
-num_train = int(len(leaf_dataset) * train_percentage)
+leaf_dataset = LeavesDataset(data_root, 'leaf_11', 40)
+# train_percentage = 0.7
+# num_train = int(len(leaf_dataset) * train_percentage)
+num_train = 330
 num_test = len(leaf_dataset) - num_train
 (train_dataset, test_dataset) = torch.utils.data.random_split(leaf_dataset, [num_train, num_test])
 
@@ -389,15 +390,18 @@ test_set = leaf_11(N, "test")
 train_set = train_set.subset(0, 10000)
 test_set = test_set.subset(0, 1000)
 
-network = Leaf_Net()
+network_margin = Leaf_Net_Margin()
+network_shape = Leaf_Net_Shape()
+network_texture = Leaf_Net_Texture()
 
-pretrain = 0
-if pretrain is not None and pretrain > 0:
-    network.load_state_dict(torch.load("models/pretrained/all_{}.pth".format(pretrain)))
-net = Network(network, "Leaf_Net", batching=True)
-net.optimizer = torch.optim.Adam(network.parameters(), lr=1e-3)
+net_margin = Network(network_margin, "Leaf_Net_Margin", batching=True)
+net_shape = Network(network_margin, "Leaf_Net_Shape", batching=True)
+net_texture = Network(network_margin, "Leaf_Net_Texture", batching=True)
+net_margin.optimizer = torch.optim.Adam(network_margin.parameters(), lr=1e-3)
+net_shape.optimizer = torch.optim.Adam(network_shape.parameters(), lr=1e-3)
+net_texture.optimizer = torch.optim.Adam(network_texture.parameters(), lr=1e-3)
 
-model = Model("models/leaf_11.pl", [net])
+model = Model("models/leaf_11.pl", [net_margin, net_shape, net_texture])
 if method == "exact":
     model.set_engine(ExactEngine(model), cache=False)
 elif method == "geometric_mean":
