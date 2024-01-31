@@ -1,6 +1,6 @@
-nn(leaf_net,[X],Y,['serrate', 'dentate', 'lobed', 'serrulate', 'entire', 'undulate']) :: margin(X,Y).
-nn(leaf_net,[X],Y,['ovate', 'lanceolate', 'oblong', 'obovate', 'elliptical']) :: shape(X,Y).
-nn(leaf_net,[X],Y,['leathery', 'smooth', 'glossy', 'medium']) :: texture(X,Y).
+nn(Leaf_Net,[X],Y,['serrate', 'dentate', 'lobed', 'serrulate', 'entire', 'undulate']) :: margin(X,Y).
+nn(Leaf_Net,[X],Y,['ovate', 'lanceolate', 'oblong', 'obovate', 'elliptical']) :: shape(X,Y).
+nn(Leaf_Net,[X],Y,['leathery', 'smooth', 'glossy', 'medium']) :: texture(X,Y).
 
 % labels = ['Alstonia Scholaris', 'Citrus limon', 'Jatropha curcas', 'Mangifera indica', 'Ocimum basilicum',
 %           'Platanus orientalis', 'Pongamia Pinnata', 'Psidium guajava', 'Punica granatum', 'Syzygium cumini', 'Terminalia Arjuna']
