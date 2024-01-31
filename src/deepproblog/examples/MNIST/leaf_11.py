@@ -33,16 +33,12 @@ leaves_img_transform = torchvision.transforms.Compose([
   )
 ])
 
-class Leaf_Net(nn.Module):
+class Leaf_Net_Margin(nn.Module):
   def __init__(self):
-    super(Leaf_Net, self).__init__()
+    super(Leaf_Net_Margin, self).__init__()
 
     # features for classification
     self.f1 = ['entire', 'indented', 'lobed', 'serrate', 'serrulate', 'undulate']
-    self.f2 = ['elliptical', 'lanceolate', 'oblong', 'obovate', 'ovate']
-    self.f3 = ['glossy', 'leathery', 'smooth', 'rough']
-    self.labels = ['Alstonia Scholaris', 'Citrus limon', 'Jatropha curcas', 'Mangifera indica', 'Ocimum basilicum',
-              'Platanus orientalis', 'Pongamia Pinnata', 'Psidium guajava', 'Punica granatum', 'Syzygium cumini', 'Terminalia Arjuna']
     self.dim = 2304
   
     # CNN
@@ -70,6 +66,36 @@ class Leaf_Net(nn.Module):
       nn.Softmax(dim=1)
     )
 
+  def forward(self, x):
+    x = self.cnn(x)
+    has_f1 = self.f1_fc(x)
+    return has_f1
+
+class Leaf_Net_Shape(nn.Module):
+  def __init__(self):
+    super(Leaf_Net_Shape, self).__init__()
+
+    # features for classification
+    self.f2 = ['elliptical', 'lanceolate', 'oblong', 'obovate', 'ovate']
+    self.dim = 2304
+  
+    # CNN
+    self.cnn = nn.Sequential(
+      nn.Conv2d(3, 32, 10, 1),
+      nn.ReLU(),
+      nn.MaxPool2d(3),
+      nn.Conv2d(32, 64, 5, 1),
+      nn.ReLU(),
+      nn.MaxPool2d(3),
+      nn.Conv2d(64, 128, 3, 1),
+      nn.ReLU(),
+      nn.MaxPool2d(2),
+      nn.Conv2d(128, 128, 3, 1),
+      nn.ReLU(),
+      nn.MaxPool2d(2),
+      nn.Flatten(),
+    )
+    
     # Fully connected for 'f2'
     self.f2_fc = nn.Sequential(
       nn.Linear(self.dim, self.dim),
@@ -78,6 +104,36 @@ class Leaf_Net(nn.Module):
       nn.Softmax(dim=1)
     )
 
+  def forward(self, x):
+    x = self.cnn(x)
+    has_f2 = self.f2_fc(x)
+    return has_f2
+
+class Leaf_Net_Texture(nn.Module):
+  def __init__(self):
+    super(Leaf_Net_Texture, self).__init__()
+
+    # features for classification
+    self.f3 = ['glossy', 'leathery', 'smooth', 'rough']
+    self.dim = 2304
+  
+    # CNN
+    self.cnn = nn.Sequential(
+      nn.Conv2d(3, 32, 10, 1),
+      nn.ReLU(),
+      nn.MaxPool2d(3),
+      nn.Conv2d(32, 64, 5, 1),
+      nn.ReLU(),
+      nn.MaxPool2d(3),
+      nn.Conv2d(64, 128, 3, 1),
+      nn.ReLU(),
+      nn.MaxPool2d(2),
+      nn.Conv2d(128, 128, 3, 1),
+      nn.ReLU(),
+      nn.MaxPool2d(2),
+      nn.Flatten(),
+    )
+    
     # Fully connected for 'f3'
     self.f3_fc = nn.Sequential(
       nn.Linear(self.dim, self.dim),
@@ -88,10 +144,9 @@ class Leaf_Net(nn.Module):
 
   def forward(self, x):
     x = self.cnn(x)
-    has_f1 = self.f1_fc(x)
-    has_f2 = self.f2_fc(x)
-    has_f3 = self.f3(x)
-    return (has_f1, has_f2, has_f3)
+    has_f3 = self.f1_3c(x)
+    return has_f3
+
 
 class LeavesDataset(torch.utils.data.Dataset):
   """
@@ -142,8 +197,8 @@ class LeavesDataset(torch.utils.data.Dataset):
     return (imgs, labels)
   
 data_root = '/workspace/deepproblog-alaia/'
-leaf_dataset = LeavesDataset(data_root, 'leaf_11', 30)
-train_percentage = 0.6
+leaf_dataset = LeavesDataset(data_root, 'leaf_11', 45)
+train_percentage = 0.7
 num_train = int(len(leaf_dataset) * train_percentage)
 num_test = len(leaf_dataset) - num_train
 (train_dataset, test_dataset) = torch.utils.data.random_split(leaf_dataset, [num_train, num_test])
