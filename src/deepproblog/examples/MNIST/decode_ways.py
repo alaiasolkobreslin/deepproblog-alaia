@@ -48,7 +48,7 @@ name = "decode_ways{}_{}_{}".format(method, N, args.seed)
 train_set = decode_ways(N, "train")
 test_set = decode_ways(N, "test")
 
-train_set = train_set.subset(0, 1000)
+train_set = train_set.subset(0, 10000)
 test_set = test_set.subset(0, 1000)
 
 network = MNIST_Net()
