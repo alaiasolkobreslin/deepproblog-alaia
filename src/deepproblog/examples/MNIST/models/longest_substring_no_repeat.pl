@@ -10,17 +10,21 @@ char_list([H|T], [H1|T1]) :- char(H, H1), char_list(T, T1).
 no_repeat([]).
 no_repeat([H|T]) :- not(member(H, T)), no_repeat(T).
 
-longest_no_repeat(L, L, N) :- no_repeat(L), !,
+longest_no_repeat(L, L, N) :- no_repeat(L), 
                               length(L, N).
-longest_no_repeat([H|T], L2, N2) :- last(T, T1),
-                                   append(HT, [T1], T),
-                                   longest_no_repeat([H|HT],_,N1),
-                                   longest_no_repeat(T,L2,N2),
-                                   N1 < N2, !.
-longest_no_repeat([H|T], L1, N1) :- last(T, T1),
-                                   append(HT, [T1], T),
-                                   longest_no_repeat([H|HT],L1,N1).
+longest_no_repeat([H|T], L2, N2) :- not(no_repeat([H|T])),
+                                    last(T, T1),
+                                    append(HT, [T1], T),
+                                    longest_no_repeat([H|HT],_,N1),
+                                    longest_no_repeat(T,L2,N2),
+                                    N1 < N2.
+longest_no_repeat([H|T], L1, N1) :- not(no_repeat([H|T])),
+                                    last(T, T1),
+                                    append(HT, [T1], T),
+                                    longest_no_repeat([H|HT],L1,N1),
+                                    longest_no_repeat(T,_,N2),
+                                    N1 >= N2.
 
-% Assume: input abc given as list [a, b, c]
+% Assume: input abc given as list [['a'], ['b'], ['a']]
 longest_substring_no_repeat(X, N) :- char_list(X, L),
                                      longest_no_repeat(L, _, N).

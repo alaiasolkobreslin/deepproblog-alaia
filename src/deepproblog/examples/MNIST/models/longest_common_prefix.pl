@@ -13,11 +13,11 @@ char_list_list([H|T], [H1|T1]) :- char_list(H, H1), char_list_list(T, T1).
 common_prefix([], _, []).
 common_prefix([[C|L1]|T], C, [L1|R]) :- common_prefix(T, C, R).
 
-longest_prefix([[H1|T1]|T], S) :- common_prefix([[H1|T1]|T], H1, R), !,
+longest_prefix([[H1|T1]|T], S) :- common_prefix([[H1|T1]|T], H1, R),
                                   longest_prefix(R, S1),
                                   string_concat(H1, S1, S).
-longest_prefix(_, "").
+longest_prefix(L, "") :- not(common_prefix(L, _, _)).
 
-% Assume: input list of lists [[a, b], [a], [a, c]]                               
+% Assume: input [[['a'], ['a']], [['a']], [['a'], ['b'], ['c']]]                        
 longest_common_prefix(X, S) :- char_list_list(X, L),
                                longest_prefix(L, S).

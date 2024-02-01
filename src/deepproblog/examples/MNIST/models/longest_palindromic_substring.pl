@@ -12,18 +12,23 @@ palindrome([_]).
 palindrome(L) :- append([H|T], [H], L),
                  palindrome(T).
 
-longest_palindrome(L, L) :- palindrome(L), !.
-longest_palindrome([H|T], L2) :- last(T, T1),
+longest_palindrome(L, L) :- palindrome(L).
+longest_palindrome([H|T], L2) :- not(palindrome([H|T])),
+                                 last(T, T1),
                                  append(HT, [T1], T),
                                  longest_palindrome([H|HT],L1),
                                  longest_palindrome(T,L2),
                                  length(L1, N1), length(L2, N2),
-                                 N1 < N2, !.
-longest_palindrome([H|T], L1) :- last(T, T1),
+                                 N1 < N2.
+longest_palindrome([H|T], L1) :- not(palindrome([H|T])),
+                                 last(T, T1),
                                  append(HT, [T1], T),
-                                 longest_palindrome([H|HT],L1).
+                                 longest_palindrome([H|HT],L1),
+                                 longest_palindrome(T,L2),
+                                 length(L1, N1), length(L2, N2),
+                                 N1 >= N2.
 
-% Assume: input aba given as [a, b, a]    
+% Assume: input aba given as [['a'], ['b'], ['a']]    
 longest_palindromic_substring(X, S) :- char_list(X, L),
                                       longest_palindrome(L, L1),
                                       string_chars(S, L1).
